@@ -24,7 +24,6 @@ count_thread = 8
 def get_request(url):
     r = requests.get(url, headers=headers)
     visited_urls.append(url)
-    print(visited_urls)
     if r.status_code == 200:
         print("Запрос:", url)
         return r.text
@@ -66,13 +65,22 @@ def parse(url):
     a_list = html.find_all('a')
     for a in a_list:
         href = a.get("href")
+        if href is None:
+            continue
+        if href == "":
+            continue
+
+        if (href[-1] != "/"):
+            href = href + "/"
 
         # print(href)
         if(check_correctly_url(href)):
             if(check_visited_url(href) == False):
 
-                # urls.append(href)
-                print(href)
+                urls.append(href)
+                # print(href)
+
+
 
 
 
@@ -135,14 +143,19 @@ def start_threading():
 
 
 
+
+
 if __name__ == '__main__':
 
     start_threading()
     #
+
+    # test = ["https://cakeboost.com"]
+    # if "https://cakeboost.com" in test:
+    #     print(True)
     #
-    # visited_urls.append("https://cakeboost.com/")
-    #
-    # print(check_visited_url("https://cakeboost.com/"))
+
+    # test("https://cakeboost.com/")
     # print(check_correctly_url("https://cakeboost.com/games-news/"))
 
 
